@@ -12,7 +12,6 @@ import { BehaviorSubject, forkJoin, type Subscription } from 'rxjs'
 import { MatTableDataSource } from '@angular/material/table'
 import { DomSanitizer } from '@angular/platform-browser'
 import { TranslateModule } from '@ngx-translate/core'
-import { SocketIoService } from '../Services/socket-io.service'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCartPlus, faEye } from '@fortawesome/free-solid-svg-icons'
@@ -41,7 +40,6 @@ export class SearchResultComponent implements OnDestroy, AfterViewInit {
   private readonly route = inject(ActivatedRoute)
   private readonly sanitizer = inject(DomSanitizer)
   private readonly ngZone = inject(NgZone)
-  private readonly io = inject(SocketIoService)
   private readonly cdRef = inject(ChangeDetectorRef)
   private readonly elRef = inject(ElementRef)
 
@@ -139,9 +137,6 @@ export class SearchResultComponent implements OnDestroy, AfterViewInit {
     let queryParam: string = this.route.snapshot.queryParams.q
     if (queryParam) {
       queryParam = queryParam.trim()
-      this.ngZone.runOutsideAngular(() => { // vuln-code-snippet hide-start
-        this.io.socket().emit('verifyLocalXssChallenge', queryParam)
-      }) // vuln-code-snippet hide-end
       this.dataSource.filter = queryParam.toLowerCase()
       this.searchValue = queryParam // vuln-code-snippet vuln-line localXssChallenge xssBonusChallenge
       if (this.gridDataSourceSubscription) {

@@ -201,14 +201,6 @@ describe('SearchResultComponent', () => {
         expect(console.log).toHaveBeenCalledWith('Error')
     })
 
-    it('should notify socket if search query includes DOM XSS payload while filtering table', () => {
-        activatedRoute.setQueryParameter('<iframe src="javascript:alert(`xss`)"> Payload')
-        vi.spyOn(mockSocket, 'emit')
-        component.filterTable()
-        expect(vi.mocked(mockSocket.emit as any).mock.lastCall[0]).toBe('verifyLocalXssChallenge')
-        expect(vi.mocked(mockSocket.emit as any).mock.lastCall[1]).toBe(activatedRoute.snapshot.queryParams.q)
-    })
-
     it('should trim the queryparameter while filtering the datasource', () => {
         activatedRoute.setQueryParameter('  Product Search   ')
         component.filterTable()

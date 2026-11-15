@@ -275,8 +275,6 @@
     - 'This challenge is almost indistinguishable from "Perform a reflected XSS attack" if you do not look "under the hood" to find out what the application actually does with the user input.'
   mitigationUrl: 'https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html'
   key: localXssChallenge
-  tutorial:
-    order: 2
 -
   name: 'Database Schema'
   category: 'Injection'
@@ -1426,8 +1424,6 @@
     - 'Crank up the volume of your computer before submitting the payload! 🔊'
   mitigationUrl: 'https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html'
   key: xssBonusChallenge
-  tutorial:
-    order: 3
 -
   name: 'Reset Uvogin''s Password'
   category: 'Sensitive Data Exposure'

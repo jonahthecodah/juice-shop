@@ -57,7 +57,7 @@ void describe('/snippets/:challenge', () => {
 
   void it('GET code snippet retrieval for challenge with code snippet', async () => {
     const res = await request(app)
-      .get('/snippets/loginAdminChallenge')
+      .get('/snippets/unionSqlInjectionChallenge')
 
     assert.equal(res.status, 200)
     assert.equal(typeof res.body.snippet, 'string')
@@ -135,7 +135,7 @@ void describe('snippets/verdict', () => {
   void it('POST without selectedLines returns false verdict', async () => {
     const res = await request(app)
       .post('/snippets/verdict')
-      .send({ key: 'loginBenderChallenge' })
+      .send({ key: 'dbSchemaChallenge' })
 
     assert.equal(res.status, 200)
     assert.equal(res.body.verdict, false)
@@ -144,7 +144,7 @@ void describe('snippets/verdict', () => {
   void it('POST with empty selectedLines array returns false verdict', async () => {
     const res = await request(app)
       .post('/snippets/verdict')
-      .send({ selectedLines: [], key: 'loginJimChallenge' })
+      .send({ selectedLines: [], key: 'dbSchemaChallenge' })
 
     assert.equal(res.status, 200)
     assert.equal(res.body.verdict, false)
@@ -152,11 +152,11 @@ void describe('snippets/verdict', () => {
 })
 
 // these tests rely on sequential execution to build up the attempt count.
-void describe('snippets/verdict (hint progression for loginAdminChallenge)', () => {
+void describe('snippets/verdict (hint progression for unionSqlInjectionChallenge)', () => {
   void it('returns no hint on the first wrong attempt', async () => {
     const res = await request(app)
       .post('/snippets/verdict')
-      .send({ selectedLines: [999], key: 'loginAdminChallenge' })
+      .send({ selectedLines: [999], key: 'unionSqlInjectionChallenge' })
 
     assert.equal(res.status, 200)
     assert.equal(res.body.verdict, false)
@@ -166,7 +166,7 @@ void describe('snippets/verdict (hint progression for loginAdminChallenge)', () 
   void it('returns the first hint text on the second wrong attempt', async () => {
     const res = await request(app)
       .post('/snippets/verdict')
-      .send({ selectedLines: [999], key: 'loginAdminChallenge' })
+      .send({ selectedLines: [999], key: 'unionSqlInjectionChallenge' })
 
     assert.equal(res.status, 200)
     assert.equal(res.body.verdict, false)
@@ -180,15 +180,15 @@ void describe('snippets/verdict (hint progression for loginAdminChallenge)', () 
     for (let i = 0; i < 2; i++) {
       await request(app)
         .post('/snippets/verdict')
-        .send({ selectedLines: [999], key: 'loginAdminChallenge' })
+        .send({ selectedLines: [999], key: 'unionSqlInjectionChallenge' })
     }
 
     const res = await request(app)
       .post('/snippets/verdict')
-      .send({ selectedLines: [999], key: 'loginAdminChallenge' })
+      .send({ selectedLines: [999], key: 'unionSqlInjectionChallenge' })
 
     assert.equal(res.status, 200)
     assert.equal(res.body.verdict, false)
-    assert.match(res.body.hint, /Line 15 is responsible for this vulnerability/)
+    assert.match(res.body.hint, /Line 5 is responsible for this vulnerability/)
   })
 })
